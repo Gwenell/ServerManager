@@ -1,8 +1,9 @@
 <?php
+// Vérifiez si la requête est de type POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ici, nous utilisons la fonction shell_exec pour exécuter git pull.
-    // Vous devez vous assurer que l'utilisateur PHP a les bonnes permissions pour exécuter git pull dans le répertoire du projet.
-    // De plus, pour des raisons de sécurité, il est conseillé de restreindre l'accès à cette page via une authentification.
+    // Exécutez git pull dans le répertoire spécifié
+    // Assurez-vous que l'utilisateur PHP a les permissions adéquates pour exécuter cette commande
+    // Important : protégez cette page avec une authentification
     $output = shell_exec('cd /var/www/html && git pull 2>&1');
     echo "<pre>$output</pre>";
 }
@@ -15,10 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Git Pull Button</title>
 </head>
 <body>
-    <!-- 
-        Assurez-vous que cette page est protégée par une authentification pour éviter que quelqu'un de non autorisé puisse exécuter le git pull.
-    -->
-    <form action="git-pull.php" method="post">
+    <!-- Le formulaire pointe sur lui-même pour la requête POST -->
+    <form action="" method="post">
+        <!-- Ajoutez une vérification d'authentification ici pour sécuriser cette action -->
         <input type="submit" value="Pull from Git">
     </form>
 </body>
