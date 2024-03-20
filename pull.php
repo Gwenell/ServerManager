@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Exécutez git pull dans le répertoire spécifié
     // Assurez-vous que l'utilisateur PHP a les permissions adéquates pour exécuter cette commande
     // Important : protégez cette page avec une authentification
-    $output = shell_exec('cd /var/www/html && git pull 2>&1');
+    $output = shell_exec('git pull');
     echo "<pre>$output</pre>";
 }
 ?>
