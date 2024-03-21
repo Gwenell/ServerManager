@@ -1,36 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web SSH Terminal</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
-    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <title>Terminal SSH Web</title>
 </head>
 <body>
     <div id="terminal"></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
     <script>
-        const term = new Terminal();
-        term.open(document.getElementById('terminal'));
-        term.write('Web SSH Terminal\\r\\n');
-
-        // Exemple d'envoi de commandes au serveur (côté client seulement pour la démo)
-        term.onData(data => {
-            // Ici, vous devriez envoyer les données à votre serveur via WebSocket ou une autre méthode.
-            console.log(`Data from terminal: ${data}`);
-        });
-
-        // Simuler la réception de données du serveur
-        term.write('Simulating server response...\\r\\n');
-
-        // Fonction pour écrire dans le terminal de la part du serveur
-        function writeToTerminal(dataFromServer) {
-            term.write(dataFromServer);
-        }
-
-        // Exemple d'utilisation de la fonction
-        writeToTerminal('Welcome to the server!\\r\\n');
+        let term = new Terminal();
+        let socket = new WebSocket('ws://localhost:8080');
+        socket.onopen = function(e) {
+            term.open(document.getElementById('terminal'));
+            term.onData(function(data) {
+                socket.send(data);
+            });
+            socket.onmessage = function(event) {
+                term.write(event.data);
+            };
+        };
     </script>
 </body>
 </html>
