@@ -15,11 +15,16 @@ class Cdao
         return $pdo;
     }
 
-    public function getTabDataFromSql($squery) {
-       $lepdo = $this->getObjetPDO();
-       $sth = $lepdo->prepare($squery);
-       $sth->execute();
-       $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-       return $result;
+    public function getTabDataFromSql($squery, $username = null) 
+{
+    $lepdo = $this->getObjetPDO();
+    $sth = $lepdo->prepare($squery);
+    if ($username !== null) {
+        $sth->bindParam(':username', $username);
     }
+    $sth->execute();
+    $result = $sth->fetchAll();
+    return $result;
+}
+
 }

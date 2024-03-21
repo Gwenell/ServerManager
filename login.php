@@ -19,13 +19,13 @@ ini_set('display_errors', 0);
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="login">
                         Login
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="login" type="text" placeholder="Enter login" name="login2">
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="login" type="text" placeholder="Enter login" name="username">
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                         Password
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter password" name="pwd">
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter password" name="password">
                 </div>
                 <div class="flex items-center justify-between">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
@@ -34,22 +34,22 @@ ini_set('display_errors', 0);
                 </div>
             </form>
             <?php 
-            if(isset($_POST['login2']) && isset($_POST['pwd']))
+            if(isset($_POST['username']) && isset($_POST['password']))
             {
                 require_once('cdao.php');
                 $odao = new Cdao();
-                $squery = 'Select * from employe';
-                $tabPersonne = $odao -> getTabDataFromSql($squery);
+                $squery = "SELECT * FROM Users WHERE Username = :username";
+                $userInfo = $odao->getTabDataFromSql($squery, $_POST['username']);
                 
-                foreach ($tabPersonne as $tab) 
-                {
-                    if($_POST['login2'] == $tab["login"] && password_verify($_POST['pwd'], $tab["mdp"])) {
-                        $_SESSION["personne"] = "OK";
-                        header("Location: page2.php");
-                        exit();
-                    }
+                if (!empty($userInfo) && password_verify($_POST['password'], $userInfo[0]["Password"])) {
+                    $_SESSION["UserID"] = $userInfo[0]["UserID"];
+                    $_SESSION["Role"] = $userInfo[0]["Role"];
+                    // Vous pouvez rediriger l'utilisateur vers la page principale ou le tableau de bord ici
+                    header("Location: dashboard.php"); // Dashboard ou la page principale de l'utilisateur
+                    exit();
+                } else {
+                    echo "<p class='text-red-500 text-xs italic'>Identifiant ou mot de passe incorrect.</p>";
                 }
-                echo "<p class='text-red-500 text-xs italic'>Identifiant ou mot de passe incorrect.</p>";
             }
             ?>
         </div>
