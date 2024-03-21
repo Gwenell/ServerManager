@@ -27,4 +27,17 @@ class Cdao
     return $result;
 }
 
+public function insertUser($insertQuery, $username, $password, $email, $role, $status) {
+    $lepdo = $this->getObjetPDO();
+    $sth = $lepdo->prepare($insertQuery);
+    $sth->bindParam(':username', $username);
+    $sth->bindParam(':password', $password);
+    $sth->bindParam(':email', $email);
+    $sth->bindParam(':role', $role);
+    $sth->bindParam(':status', $status);
+    
+    $sth->execute();
+}
+
+
 }
