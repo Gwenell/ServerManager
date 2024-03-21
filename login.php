@@ -14,8 +14,9 @@ if(isset($_POST['register']) && !empty($_POST['username']) && !empty($_POST['pas
     $role = 'user'; // Rôle par défaut lors de l'inscription
     $status = 'pending approval'; // Statut par défaut lors de l'inscription
     
-    // Insertion dans la base de données (faire une vérification pour s'assurer que l'utilisateur n'existe pas déjà)
-    if($odao->registerUser($username, $password, $email, $role, $status)) {
+    // Tentative d'inscription de l'utilisateur
+    $result = $odao->registerUser($username, $password, $email, $role, $status);
+    if ($result) {
         $message = "Inscription réussie. Veuillez attendre l'activation par un administrateur.";
     } else {
         $message = "L'inscription a échoué. L'utilisateur existe peut-être déjà.";
@@ -27,7 +28,9 @@ if(isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['passwo
     $username = $_POST['username'];
     $password = $_POST['password'];
     
-    if($odao->loginUser($username, $password)) {
+    // Tentative de connexion de l'utilisateur
+    $loginSuccess = $odao->loginUser($username, $password);
+    if ($loginSuccess) {
         header("Location: dashboard.php"); // Redirection vers le tableau de bord
         exit();
     } else {
