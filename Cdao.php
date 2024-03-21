@@ -2,42 +2,38 @@
 
 class Cdao
 {
-    function filtrerChainePourBD($str) {
-        // Cette fonction devrait être mise à jour ou retirée car mysql_real_escape_string est obsolète et PDO fournit des prepared statements qui sécurisent les requêtes.
-        return $str;
-    }
-
-    private function getObjetPDO() {
+    private function getObjetPDO()
+    {
         $strConnection = 'mysql:host=localhost;dbname=ServerManager'; // DSN
-        $arrExtraParam= array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"); // demande format utf-8
-        $pdo = new PDO($strConnection, 'root', '212002', $arrExtraParam); // Remplacez 'root' et '212002' par vos propres identifiants
+        $arrExtraParam= array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"); // format utf-8
+        $pdo = new PDO($strConnection, 'root', '', $arrExtraParam);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     }
 
-    public function getTabDataFromSql($squery, $username = null) 
-{
-    $lepdo = $this->getObjetPDO();
-    $sth = $lepdo->prepare($squery);
-    if ($username !== null) {
-        $sth->bindParam(':username', $username);
+    public function getTabDataFromSql($squery, $parameters = [])
+    {
+        $lepdo = $this->getObjetPDO();
+        $sth = $lepdo->prepare($squery);
+        $sth->execute($parameters);
+        $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
-    $sth->execute();
-    $result = $sth->fetchAll();
-    return $result;
-}
 
-public function insertUser($insertQuery, $username, $password, $email, $role, $status) {
-    $lepdo = $this->getObjetPDO();
-    $sth = $lepdo->prepare($insertQuery);
-    $sth->bindParam(':username', $username);
-    $sth->bindParam(':password', $password);
-    $sth->bindParam(':email', $email);
-    $sth->bindParam(':role', $role);
-    $sth->bindParam(':status', $status);
-    
-    $sth->execute();
-}
+    public function registerUser($username, $password, $email, $role, $status)
+    {
+        $lepdo = $this->getObjetPDO();
+        $sth = $lepdo->prepare("INSERT INTO Users (Username, Password, Email, Role, Status) VALUES (?, ?, ?, ?, ?)");
+        return $sth->execute([$username, $password, $email, $role, $status]);
+    }
 
-
+    public function loginUser($username, $password)
+    {
+        $userInfo = $this->getTabDataFromSql("SELECT * FROM Users WHERE Username = ?", [$username]);
+        if (!empty($userInfo) && password_verify($password, $userInfo[0]['Password'])) {
+            // Ici, vous pouvez définir les variables de session ou d'autres opérations après une connexion réussie
+            return true;
+        }
+        return false;
+    }
 }
