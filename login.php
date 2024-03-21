@@ -9,12 +9,11 @@ $message = "";
 // Traitement de l'inscription
 if(isset($_POST['register']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email'])) {
     $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hashage du mot de passe
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $email = $_POST['email'];
-    $role = 'user'; // Rôle par défaut lors de l'inscription
-    $status = 'pending approval'; // Statut par défaut lors de l'inscription
-    
-    // Tentative d'inscription de l'utilisateur
+    $role = 'user'; // Role par défaut pour un nouvel utilisateur
+    $status = 'active'; // Status par défaut pour un nouvel utilisateur
+
     $result = $odao->registerUser($username, $password, $email, $role, $status);
     if ($result) {
         $message = "Inscription réussie. Veuillez attendre l'activation par un administrateur.";
@@ -27,8 +26,7 @@ if(isset($_POST['register']) && !empty($_POST['username']) && !empty($_POST['pas
 if(isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    
-    // Tentative de connexion de l'utilisateur
+
     $loginSuccess = $odao->loginUser($username, $password);
     if ($loginSuccess) {
         header("Location: dashboard.php"); // Redirection vers le tableau de bord
