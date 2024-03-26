@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<?php 
+<?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require_once('cdao.php');
 $odao = new Cdao();
@@ -7,12 +12,13 @@ $odao = new Cdao();
 $message = "";
 
 // Traitement de l'inscription
-if(isset($_POST['register']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email'])) {
-    $username = $_POST['username'];
+if (isset($_POST['register']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email'])) {
+    // Sanitize user input to avoid SQL injection
+    $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $email = $_POST['email'];
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $role = 'user'; // Role par défaut pour un nouvel utilisateur
-    $status = 'active'; // Status par défaut pour un nouvel utilisateur
+    $status = 'pending approval'; // Status par défaut pour un nouvel utilisateur
 
     $result = $odao->registerUser($username, $password, $email, $role, $status);
     if ($result) {
@@ -23,13 +29,14 @@ if(isset($_POST['register']) && !empty($_POST['username']) && !empty($_POST['pas
 }
 
 // Traitement de la connexion
-if(isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+if (isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {
+    // Sanitize user input
+    $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+    $password = $_POST['password']; // Password is hashed, no need to sanitize
 
     $loginSuccess = $odao->loginUser($username, $password);
     if ($loginSuccess) {
-        header("Location: dashboard.php"); // Redirection vers le tableau de bord
+        header("Location: dashboard.php");
         exit();
     } else {
         $message = "Identifiant ou mot de passe incorrect.";
