@@ -1,6 +1,4 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
-
 // Vérifiez si la requête est de type POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Exécutez git pull dans le répertoire spécifié
