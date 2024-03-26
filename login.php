@@ -1,41 +1,4 @@
 <!DOCTYPE html>
-<?php 
-session_start();
-require_once('cdao.php');
-$odao = new Cdao();
-
-$message = "";
-
-// Traitement de l'inscription
-if(isset($_POST['register']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email'])) {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $email = $_POST['email'];
-    $role = 'user'; // Role par défaut pour un nouvel utilisateur
-    $status = 'active'; // Status par défaut pour un nouvel utilisateur
-
-    $result = $odao->registerUser($username, $password, $email, $role, $status);
-    if ($result) {
-        $message = "Inscription réussie. Veuillez attendre l'activation par un administrateur.";
-    } else {
-        $message = "L'inscription a échoué. L'utilisateur existe peut-être déjà.";
-    }
-}
-
-// Traitement de la connexion
-if(isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $loginSuccess = $odao->loginUser($username, $password);
-    if ($loginSuccess) {
-        header("Location: dashboard.php"); // Redirection vers le tableau de bord
-        exit();
-    } else {
-        $message = "Identifiant ou mot de passe incorrect.";
-    }
-}
-?>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -65,9 +28,38 @@ if(isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['passwo
                         <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="register">Register</button>
                     </div>
                 </form>
-                <?php if (!empty($message)): ?>
-                    <p class="text-center text-red-500 mt-4"><?= $message; ?></p>
-                <?php endif; ?>
+                <?php
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+                    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+                    $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
+
+                    if ($action === 'register' && !empty($username) && !empty($password) && !empty($email)) {
+                        // Inscription
+                        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                        $result = $odao->registerUser($username, $hashedPassword, $email, 'user', 'active');
+                        if ($result) {
+                            $message = "Inscription réussie. Veuillez attendre l'activation par un administrateur.";
+                        } else {
+                            $message = "L'inscription a échoué. L'utilisateur existe peut-être déjà.";
+                        }
+                    } elseif ($action === 'login' && !empty($username) && !empty($password)) {
+                        // Connexion
+                        $loginSuccess = $odao->loginUser($username, $password);
+                        if ($loginSuccess) {
+                            header("Location: dashboard.php"); // Redirection vers le tableau de bord
+                            exit();
+                        } else {
+                            $message = "Identifiant ou mot de passe incorrect.";
+                        }
+                    }
+                    
+                    if (!empty($message)) {
+                        echo "<p class='text-center text-red-500 mt-4'>$message</p>";
+                    }
+                }
+                ?>
             </div>
         </div>
     </div>
