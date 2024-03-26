@@ -1,10 +1,17 @@
 <?php
+session_start();
+
+// Supposons que vous avez une variable de session qui détermine si l'utilisateur est connecté
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
+    // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+    header('Location: login.php');
+    exit();
+}
+
 // Vérifiez si la requête est de type POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Exécutez git pull dans le répertoire spécifié
-    // Assurez-vous que l'utilisateur PHP a les permissions adéquates pour exécuter cette commande
-    // Important : protégez cette page avec une authentification
-    $output = shell_exec('git pull');
+    $output = shell_exec('cd /path/to/your/repo && git pull 2>&1'); // Assurez-vous de remplacer '/path/to/your/repo' par le chemin réel
     echo "<pre>$output</pre>";
 }
 ?>
@@ -16,9 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Git Pull Button</title>
 </head>
 <body>
-    <!-- Le formulaire pointe sur lui-même pour la requête POST -->
     <form action="" method="post">
-        <!-- Ajoutez une vérification d'authentification ici pour sécuriser cette action -->
         <input type="submit" value="Pull from Git">
     </form>
 </body>
