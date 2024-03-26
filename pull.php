@@ -1,17 +1,10 @@
 <?php
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Set content type to UTF-8
-header('Content-Type: text/html; charset=utf-8');
-
 // Vérifiez si la requête est de type POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Exécutez git pull dans le répertoire spécifié
     // Assurez-vous que l'utilisateur PHP a les permissions adéquates pour exécuter cette commande
     // Important : protégez cette page avec une authentification
-    $output = shell_exec('git pull'); // The 2>&1 makes sure to catch any shell errors
+    $output = shell_exec('git pull');
     echo "<pre>$output</pre>";
 }
 ?>
@@ -21,12 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Git Pull Button</title>
-    <!-- Other head content -->
 </head>
 <body>
     <!-- Le formulaire pointe sur lui-même pour la requête POST -->
     <form action="" method="post">
-        <!-- Add authentication verification here -->
+        <!-- Ajoutez une vérification d'authentification ici pour sécuriser cette action -->
         <input type="submit" value="Pull from Git">
     </form>
 </body>
