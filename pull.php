@@ -9,8 +9,9 @@ header('Content-Type: text/html; charset=utf-8');
 
 // Vérifiez si la requête est de type POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $output = shell_exec('git pull');
+    // Assurez-vous que l'utilisateur PHP a les permissions adéquates pour exécuter cette commande
+    // Important : protégez cette page avec une authentification
+    $output = shell_exec('git pull'); // The 2>&1 makes sure to catch any shell errors
     echo "<pre>$output</pre>";
 }
 ?>
