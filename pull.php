@@ -1,12 +1,7 @@
 <?php
 session_start();
 
-// Supposons que vous avez une variable de session qui détermine si l'utilisateur est connecté
-if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
-    // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
-    header('Location: login.php');
-    exit();
-}
+
 
 // Vérifiez si la requête est de type POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
