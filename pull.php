@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include('head.php'); // Ensure you have a 'head.php' file with the necessary CSS links ?>
+    <?php include('head.php'); ?>
     <title>Git Pull Page</title>
 </head>
 <body class="bg-gray-200">
@@ -16,10 +16,15 @@
         </div>
     </div>
     <?php
-    // Check if the form has been submitted
+    // Vérification si le formulaire a été soumis
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'gitpull') {
-        // Execute the git pull command and capture output
-        $output = shell_exec('cd /var/www/html/ServerManager && git pull 2>&1');
+
+        $password = '212002';
+        $command = 'echo ' . escapeshellarg($password) . ' | sudo -S git pull';
+
+        echo "<pre>Commande simulée : $command</pre>";
+
+        $output = shell_exec($command);
         echo "<pre>$output</pre>";
     }
     ?>
