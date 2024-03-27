@@ -2,31 +2,39 @@
 session_start();
 include('cdao.php');
 
-// Création d'une instance de la classe Cdao pour interagir avec la base de données
 $odao = new Cdao();
 $message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $action = $_POST['action'];
+    $inputs = filter_input_array(INPUT_POST, [
+        'username' => FILTER_SANITIZE_STRING,
+        'password' => FILTER_SANITIZE_STRING,
+        'email' => FILTER_SANITIZE_EMAIL,
+        'action' => FILTER_SANITIZE_STRING
+    ]);
 
-    if ($action === 'register' && $username && $password && $email) {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $result = $odao->registerUser($username, $hashedPassword, $email, 'user', 'active');
-        if ($result) {
-            $message = "Registration successful. Please wait for administrator approval.";
-        } else {
-            $message = "Registration failed. The user might already exist.";
-        }
-    } elseif ($action === 'login' && $username && $password) {
-        $loginSuccess = $odao->loginUser($username, $password);
-        if ($loginSuccess) {
-            header("Location: ../interaction_server/ssh.php");
-            exit();
-        } else {
-            $message = "Incorrect username or password.";
+    if (!empty($inputs['action'])) {
+        $action = $inputs['action'];
+        $username = $inputs['username'];
+        $password = $inputs['password'];
+        $email = $inputs['email'];
+
+        if ($action === 'register' && $username && $password && $email) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $result = $odao->registerUser($username, $hashedPassword, $email, 'user', 'active');
+            if ($result) {
+                $message = "Registration successful. Please wait for administrator approval.";
+            } else {
+                $message = "Registration failed. The user might already exist.";
+            }
+        } elseif ($action === 'login' && $username && $password) {
+            $loginSuccess = $odao->loginUser($username, $password);
+            if ($loginSuccess) {
+                header("Location: ../interaction_server/ssh.php");
+                exit;
+            } else {
+                $message = "Incorrect username or password.";
+            }
         }
     }
 }
