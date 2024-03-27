@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($action === 'login' && $username && $password) {
             $loginSuccess = $odao->loginUser($username, $password);
             if ($loginSuccess) {
-                header("Location: ../interaction_server/ssh.php");
+                header("Location: ../gestion_server/dashboard.php");
                 exit;
             } else {
                 $message = "Incorrect username or password.";
