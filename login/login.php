@@ -12,10 +12,10 @@ $message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $inputs = filter_input_array(INPUT_POST, [
-        'username' => FILTER_SANITIZE_STRING,
-        'password' => FILTER_SANITIZE_STRING,
+        'username' => FILTER_SANITIZE_SPECIAL_CHARS,
+        'password' => FILTER_UNSAFE_RAW, // Le mot de passe sera hashé, pas besoin de le nettoyer ici
         'email' => FILTER_SANITIZE_EMAIL,
-        'action' => FILTER_SANITIZE_STRING
+        'action' => FILTER_SANITIZE_SPECIAL_CHARS
     ]);
 
     if (!empty($inputs['action'])) {
