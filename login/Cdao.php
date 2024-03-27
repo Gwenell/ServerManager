@@ -4,9 +4,9 @@ class Cdao
 {
     private function getObjetPDO()
     {
-        $strConnection = 'mysql:host=localhost;dbname=ServerManager'; // DSN
+        $strConnection = 'mysql:host=172.17.0.2;dbname=ServerManager'; // DSN
         $arrExtraParam= array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"); // format utf-8
-        $pdo = new PDO($strConnection, 'root', '', $arrExtraParam); // Changez 'root' et '' si votre DB a différents username et password
+        $pdo = new PDO($strConnection, 'root', 'root', $arrExtraParam); // Changez 'root' et '' si votre DB a différents username et password
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     }
