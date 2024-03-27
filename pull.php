@@ -7,14 +7,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $repositoryPath = '/var/www/html/ServerManager';
 
     // Run the git pull command in the specified directory and capture the output
-    $output = shell_exec('cd ' . escapeshellarg($repositoryPath) . ' && sudo -u www-data git pull 2>&1');
+    $output = shell_exec('cd ' . escapeshellarg($repositoryPath) . ' && git pull 2>&1');
     
-    // Store the output in the session to display in the HTML below
-    $_SESSION['output'] = $output;
-    
-    // Redirect to clear POST data
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit();
+    // Display the output
+    echo "<pre>$output</pre>";
 }
 ?>
 
