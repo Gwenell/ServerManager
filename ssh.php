@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<?php include('head.php'); ?>
 <head>
     <title>Web SSH Terminal</title>
 </head>

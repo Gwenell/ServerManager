@@ -6,7 +6,7 @@ class Cdao
     {
         $strConnection = 'mysql:host=localhost;dbname=ServerManager'; // DSN
         $arrExtraParam= array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"); // format utf-8
-        $pdo = new PDO($strConnection, 'root', '', $arrExtraParam);
+        $pdo = new PDO($strConnection, 'root', '', $arrExtraParam); // Changez 'root' et '' si votre DB a différents username et password
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     }
@@ -31,7 +31,8 @@ class Cdao
     {
         $userInfo = $this->getTabDataFromSql("SELECT * FROM Users WHERE Username = ?", [$username]);
         if (!empty($userInfo) && password_verify($password, $userInfo[0]['Password'])) {
-            // Ici, vous pouvez définir les variables de session ou d'autres opérations après une connexion réussie
+            // Après la connexion réussie, vous pouvez définir des variables de session ou effectuer d'autres opérations
+            $_SESSION['user_id'] = $userInfo[0]['UserID']; // Exemple de définition de la variable de session
             return true;
         }
         return false;
