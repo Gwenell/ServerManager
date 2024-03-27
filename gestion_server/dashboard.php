@@ -8,26 +8,36 @@
     <div class="content">
         <div id="charts">
             <!-- Chart containers -->
-            <div class="chart-container">
-                <h3>RAM Usage</h3>
-                <canvas id="ramUsageChart"></canvas>
-            </div>
-            <div class="chart-container">
+            <div class="content">
+        <div class="cpu-gpu-container">
+            <!-- CPU Info side by side -->
+            <div class="info-block">
                 <h3>CPU Usage</h3>
                 <canvas id="cpuUsageChart"></canvas>
             </div>
-            <div class="chart-container">
+            <div class="info-block">
                 <h3>CPU Temperature</h3>
                 <canvas id="cpuTempChart"></canvas>
             </div>
-            <div class="chart-container">
+        </div>
+        
+        <div class="cpu-gpu-container">
+            <!-- GPU Info side by side -->
+            <div class="info-block">
                 <h3>GPU Usage</h3>
                 <canvas id="gpuUsageChart"></canvas>
             </div>
-            <div class="chart-container">
+            <div class="info-block">
                 <h3>GPU Temperature</h3>
                 <canvas id="gpuTempChart"></canvas>
             </div>
+        </div>
+        
+        <!-- RAM Usage -->
+        <div class="info-block">
+            <h3>RAM Usage</h3>
+            <canvas id="ramUsageChart"></canvas>
+        </div>
             <!-- Add more charts as needed -->
         </div>
                 <!-- Disk Information -->
