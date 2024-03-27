@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <?php include('../gestion_server/head.php'); ?>
 <body class="flex">
 

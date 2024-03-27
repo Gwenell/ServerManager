@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
     <?php include('head.php'); ?>
 <body class="bg-gray-100">
     <div class="flex items-center justify-center min-h-screen">

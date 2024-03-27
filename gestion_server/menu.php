@@ -1,12 +1,12 @@
 <!-- menu.php -->
 <nav class="menu">
     <ul class="menu-list">
-        <li><a href="dashboard.php">Dashboard</a></li>
-        <li><a href="files.php">Gestion de Fichiers</a></li>
-        <li><a href="vm.php">Gestion des VM</a></li>
-        <li><a href="docker.php">Gestion des Dockers</a></li>
-        <li><a href="ssh.php">Accès SSH</a></li>
-        <li><a href="network.php">Gestion Réseau</a></li>
-        <li><a href="users.php">Gestion des Utilisateurs</a></li>
+        <li><a href="../gestion_server/dashboard.php">Dashboard</a></li>
+        <li><a href="../interaction_server/files.php">File Manager</a></li>
+        <li><a href="../interaction_server/vm.php">VM Manager</a></li>
+        <li><a href="../interaction_server/docker.php">Dockers Manager</a></li>
+        <li><a href="../interaction_server/ssh.php">SSH Access</a></li>
+        <li><a href="../gestion_server/network.php">Network Manager</a></li>
+        <li><a href="../gestion_server/users.php">User Manager</a></li>
     </ul>
 </nav>

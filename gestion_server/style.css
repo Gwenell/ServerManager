@@ -43,3 +43,25 @@
     padding: 20px; /* Padding around the content */
   }
   
+
+  /* Grid layout for CPU and GPU info side by side */
+.cpu-gpu-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as necessary */
+  gap: 20px;
+}
+
+/* Grid layout for disk information */
+.disk-info-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Create as many columns as fit */
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.disk {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
