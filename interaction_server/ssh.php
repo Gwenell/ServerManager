@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
-<?php include('head.php'); ?>
-<head>
-    <title>Web SSH Terminal</title>
-</head>
-<body>
-    <div id="terminal"></div>
+<?php include('../gestion_server/head.php'); ?>
+<body class="flex">
+
+<?php include('../gestion_server/menu.php'); ?>
+
+<div class="content" style="flex-grow: 1; height: 100vh;">
+    <div id="terminal" style="width: 100%; height: 100%;"></div>
     <!-- Include xterm.js for terminal functionality -->
     <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
@@ -21,7 +22,6 @@
             term.open(document.getElementById('terminal'));
             term.writeln('Welcome to SSH Web Terminal.');
             term.writeln('Please login with your username.');
-            term.write('Username: gwenell\r\n'); // Set the default username
             // Note: Do not automatically send passwords or sensitive information
 
             term.onData(function(data) {
@@ -48,5 +48,6 @@
             }
         };
     </script>
+</div>
 </body>
 </html>
