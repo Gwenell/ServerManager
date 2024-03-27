@@ -14,7 +14,7 @@
         });
 
         // Define the WebSocket URL
-        let socket = new WebSocket('ws://localhost:8080'); // Make sure to use wss:// in a production environment
+        let socket = new WebSocket('ws://localhost:8080');
 
         socket.onopen = function(e) {
             term.open(document.getElementById('terminal'));
@@ -42,7 +42,7 @@
             if (event.wasClean) {
                 console.log(`[close] Connection closed cleanly, code=${event.code}, reason=${event.reason}`);
             } else {
-                // e.g. server process killed or network down
+                // server process killed or network down
                 console.log('[close] Connection died');
             }
         };
