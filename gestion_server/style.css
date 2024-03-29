@@ -9,14 +9,14 @@
 
 /* Sidebar menu styles */
 .menu {
-  background-color: #222; /* Dark background for the sidebar */
-  width: 200px; /* Sidebar width */
-  height: 100vh; /* Full height */
-  position: fixed; /* Fixed Position */
-  top: 0; /* Stick to the top */
-  left: 0; /* Stick to the left */
-  overflow-y: auto; /* Enable vertical scrolling */
-  z-index: 1000; /* Higher z-index so that it stacks on top */
+  background-color: #222;
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 1000;
 }
 
 .menu-list {
@@ -26,7 +26,7 @@
 }
 
 .menu-list li a {
-  color: #fff; /* White text for links */
+  color: #fff;
   padding: 15px;
   text-decoration: none;
   display: block;
@@ -34,37 +34,35 @@
 }
 
 .menu-list li a:hover {
-  background-color: #333; /* Darker background on hover */
+  background-color: #333;
 }
 
 /* Content styles */
 .content {
-  margin-left: 200px; /* Make room for the sidebar */
-  padding: 20px; /* Padding around the content */
-}
-
-/* Grid layout for CPU and GPU info side by side */
-.cpu-gpu-container {
+  margin-left: 200px;
+  padding: 10px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as necessary */
-  gap: 20px;
-  margin-bottom: 20px; /* Space between the CPU/GPU containers and disk info */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
 }
 
-/* Style individual info blocks for CPU and GPU */
 .info-block {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  text-align: center; /* Center the text inside the blocks */
+  text-align: center;
 }
 
-/* Grid layout for disk information */
+.info-block canvas {
+  width: 100%;
+  height: 200px;
+}
+
 .disk-info-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Create as many columns as fit */
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
 }
 
 .disk {
@@ -72,4 +70,6 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
+  text-align: left;
+  margin: 0 auto;
 }
