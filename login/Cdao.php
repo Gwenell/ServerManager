@@ -5,7 +5,7 @@ class Cdao
     private function getObjetPDO()
     {
         $strConnection = 'mysql:host=localhost;dbname=ServerManager'; // DSN
-        $pdo = new PDO($strConnection, 'root', 'root'); // Assurez-vous que ces informations sont correctes et sécurisées
+        $pdo = new PDO($strConnection, 'root', '1234'); // Assurez-vous que ces informations sont correctes et sécurisées
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->exec("SET NAMES utf8"); // Configurer manuellement l'encodage de caractères
         return $pdo;
