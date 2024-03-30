@@ -1,4 +1,15 @@
 <!DOCTYPE html>
+<?php
+session_start();
+
+// Check if the session variable for the logged-in user is set
+if (!isset($_SESSION['user_id'])) {
+    // If not set, redirect the user to the login page
+    header('Location: ../login/login.php');
+    exit(); // Ensure no further code is executed after the redirection
+}
+
+?>
 <html lang="en">
 <?php include('../gestion_server/head.php'); ?>
 <body class="flex">
