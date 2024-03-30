@@ -10,3 +10,8 @@
         <li><a href="../gestion_server/users.php">User Manager</a></li>
     </ul>
 </nav>
+
+<!-- Logout Button -->
+<div class="absolute bottom-0 left-0 mb-4 ml-4">
+    <a href="../logout.php" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" style="transition: background-color 0.2s;">Logout</a>
+</div>
