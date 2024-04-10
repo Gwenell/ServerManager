@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <?php
-session_start();
+require_once '../gestion_server/SessionManager.php';
+require_once '../login/Cdao.php';
 
-// Check if the session variable for the logged-in user is set
-if (!isset($_SESSION['user_id'])) {
-    // If not set, redirect the user to the login page
-    header('Location: ../login/login.php');
-    exit(); // Ensure no further code is executed after the redirection
-}
+// Check session
+SessionManager::checkUserSession();
+
+$dao = new Cdao();
+
+// You can now use $dashboardData to retrieve the necessary data
+// and pass them to your JavaScript scripts for display via Chart.js
 
 ?>
 <html lang="en">
+<head> <title>SSH</title> </head>
 <?php include('../gestion_server/head.php'); ?>
 <body class="flex">
 

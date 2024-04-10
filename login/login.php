@@ -1,45 +1,43 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-
+// Start a new session or resume the existing one.
 session_start();
+
+// Include the Cdao class file for database operations.
 include('Cdao.php');
 
-$odao = new Cdao();
+// Create a new instance of the Cdao class.
+$dao = new Cdao();
+
+// Initialize an empty message string to hold potential messages for the user.
 $message = "";
 
+// Check if the form was submitted using POST method.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $inputs = filter_input_array(INPUT_POST, [
-        'username' => FILTER_SANITIZE_SPECIAL_CHARS,
-        'password' => FILTER_UNSAFE_RAW, // Le mot de passe sera hashé, pas besoin de le nettoyer ici
-        'email' => FILTER_SANITIZE_EMAIL,
-        'action' => FILTER_SANITIZE_SPECIAL_CHARS
-    ]);
+    // Sanitize and store user input.
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+    $password = $_POST['password']; // Don't sanitize passwords; hashing will occur in Cdao.php.
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    if (!empty($inputs['action'])) {
-        $action = $inputs['action'];
-        $username = $inputs['username'];
-        $password = $inputs['password'];
-        $email = $inputs['email'];
-
-        if ($action === 'register' && $username && $password && $email) {
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $result = $odao->registerUser($username, $hashedPassword, $email, 'user', 'active');
-            if ($result) {
-                $message = "Registration successful. Please wait for administrator approval.";
-            } else {
-                $message = "Registration failed. The user might already exist.";
-            }
-        } elseif ($action === 'login' && $username && $password) {
-            $loginSuccess = $odao->loginUser($username, $password);
-            if ($loginSuccess) {
-                header("Location: ../gestion_server/dashboard.php");
-                exit;
-            } else {
-                $message = "Incorrect username or password.";
-            }
+    // Handle registration.
+    if ($action === 'register' && $username && $password && $email) {
+        // Attempt to register the user using the Cdao method.
+        $result = $dao->registerUser($username, $password, $email, 'user', 'active');
+        if ($result) {
+            $message = "Registration successful. Please wait for administrator approval.";
+        } else {
+            $message = "Registration failed. The user might already exist.";
+        }
+    // Handle login.
+    } elseif ($action === 'login' && $username && $password) {
+        // Attempt to log in the user using the Cdao method.
+        $loginSuccess = $dao->loginUser($username, $password);
+        if ($loginSuccess) {
+            // Redirect to the dashboard if login is successful.
+            header("Location: ../gestion_server/dashboard.php");
+            exit;
+        } else {
+            $message = "Incorrect username or password.";
         }
     }
 }
