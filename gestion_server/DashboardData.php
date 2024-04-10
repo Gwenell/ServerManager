@@ -3,16 +3,40 @@
 class DashboardData {
     private $dao;
     private $diskDataPath = 'path/to/your/disk_metrics.json'; // Chemin vers le fichier JSON
+    // private $cpuDataPath = 'path/to/your/cpuDataPath.json';
+    // private $gpuDataPath = 'path/to/your/gpuDataPath.json';
+    // private $ramDataPath = 'path/to/your/ramDataPath.json';
 
     public function __construct(Cdao $dao) {
         $this->dao = $dao;
     }
 
     public function getCpuMetrics() {
-        return $this->dao->getTabDataFromSql("SELECT * FROM cpu_metrics");
+        // Example data, replace with your actual data retrieval
+        $data = [];
+        for ($i = 0; $i < 5 * 60; $i += 20) {
+            $data[] = ['time' => $i, 'usage' => mt_rand(0, 100), 'temperature' => mt_rand(20, 80)];
+        }
+        return $data;
     }
 
-    // ... méthodes pour GPU, RAM ...
+    public function getGpuMetrics() {
+        // Example data, replace with your actual data retrieval
+        $data = [];
+        for ($i = 0; $i < 5 * 60; $i += 20) {
+            $data[] = ['time' => $i, 'usage' => mt_rand(0, 100), 'temperature' => mt_rand(30, 70)];
+        }
+        return $data;
+    }
+
+    public function getRamMetrics() {
+        // Example data, replace with your actual data retrieval
+        $data = [];
+        for ($i = 0; $i < 5 * 60; $i += 20) {
+            $data[] = ['time' => $i, 'usage' => mt_rand(0, 100)];
+        }
+        return $data;
+    }
 
     public function getDiskMetrics() {
         /*$diskDataPath = '../path/to/your/disk_data.json';
